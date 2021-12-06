@@ -3,13 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 
-import DefaultText from '../components/DefaultText';
-import Colors from '../constants/Colors';
+import DefaultText from '../../components/DefaultText';
+import Colors from '../../constants/Colors';
+import CustomHeaderButton from '../../components/CustomHeaderButton';
 
-const ShopMainScreen = (props) => {
+const CartScreen = (props) => {
   return (
     <View style={styles.screen}>
-      <DefaultText style={styles.text}>Основен екран на магазина</DefaultText>
+      <DefaultText style={styles.text}>екран КОЛИЧКА</DefaultText>
     </View>
   );
 };
@@ -26,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShopMainScreen;
+export default CartScreen;

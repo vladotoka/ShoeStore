@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import ShopMainScreen from './screens/ShopMainScreen';
+
+import ProductsOverviewScreen from './screens/shop/ProductsOverviewScreen';
+import ShopNavigator from './navigation/ShopNavigator';
+
+
 
 const fetchFonts = async () => {
   await Font.loadAsync({
@@ -25,7 +29,7 @@ export default function App() {
   }
 
   return (
-    <ShopMainScreen/>
+    <ShopNavigator/>
   );
 }
 

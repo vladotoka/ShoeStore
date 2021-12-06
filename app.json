@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "ShoeStore",
+    "name": "Магазинче",
     "slug": "ShoeStore",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/shoeIconGreen.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/shoeIconGreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
