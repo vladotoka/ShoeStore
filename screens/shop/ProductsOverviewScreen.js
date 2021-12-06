@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  FlatList,
+} from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
@@ -7,9 +13,10 @@ import { useSelector } from 'react-redux';
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import CustomHeaderButton from '../../components/CustomHeaderButton';
+import ProductItem from '../../components/shop/ProductItem';
 
 const ProductsOverviewScreen = (props) => {
-  const products = useSelector(state => state.products.availableProducts);
+  const products = useSelector((state) => state.products.availableProducts);
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -28,22 +35,29 @@ const ProductsOverviewScreen = (props) => {
     });
   }, [props.navigation]);
 
-
   return (
-    <View style={styles.screen}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-            props.navigation.navigate('ProductDetails', { sendSomething: 42 });
-        }}
-      >
-        <View>
-          <DefaultText style={styles.text}>
-            Основен екран на магазина
-          </DefaultText>
-        </View>
-      </TouchableWithoutFeedback>
-      <FlatList data={products} renderItem={itemData => <Text>{itemData.item.title}</Text>}/>
-    </View>
+    // onPress={() => {
+    //   props.navigation.navigate('ProductDetails', { sendSomething: 42 });
+    // }}
+
+    <FlatList
+      data={products}
+      renderItem={(itemData) => (
+        <ProductItem
+          title={itemData.item.title}
+          price={itemData.item.price}
+          imageUrl={itemData.item.imageUrl}
+          onViewDetail={() => {
+            props.navigation.navigate('ProductDetails', {
+              sendSomething: 42,
+              id: itemData.item.id,
+              productName: itemData.item.title
+            });
+          }}
+          onAddToCart={() => {}}
+        />
+      )}
+    />
   );
 };
 

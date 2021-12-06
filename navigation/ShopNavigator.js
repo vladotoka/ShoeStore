@@ -25,7 +25,7 @@ function ShopStack() {
       headerBackTitleStyle: { fontFamily: 'sevilla' },
     }}>
       <Stack.Screen name="ProductsOverview" component={ProductsOverviewScreen} options={{title: "Всички Продукти"}}/>
-      <Stack.Screen name="ProductDetails" component={ProductDetailScreen} options={{title: "Инфо за продукт"}}/>
+      <Stack.Screen name="ProductDetails" component={ProductDetailScreen} options={({route}) => ({title: route.params.productName})}/>
       <Stack.Screen name="Cart" component={CartScreen} options={{title: "Количка"}}/>
     </Stack.Navigator>
   );

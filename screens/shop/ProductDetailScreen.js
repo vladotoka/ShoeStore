@@ -8,9 +8,13 @@ import Colors from '../../constants/Colors';
 import CustomHeaderButton from '../../components/CustomHeaderButton';
 
 const ProductDetailScreen = (props) => {
+  const {id, sendSomething} = props.route.params;
+
   return (
     <View style={styles.screen}>
       <DefaultText style={styles.text}>екран ПОДРОБНОСТИ ЗА ПРОДУКТА</DefaultText>
+      <DefaultText>status:{sendSomething}</DefaultText>
+      <DefaultText>id:{id}</DefaultText>
     </View>
   );
 };
