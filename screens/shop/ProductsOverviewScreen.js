@@ -50,7 +50,7 @@ const ProductsOverviewScreen = (props) => {
           onViewDetail={() => {
             props.navigation.navigate('ProductDetails', {
               sendSomething: 42,
-              id: itemData.item.id,
+              productId: itemData.item.id,
               productName: itemData.item.title
             });
           }}

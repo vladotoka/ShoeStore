@@ -1,20 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import CustomHeaderButton from '../../components/CustomHeaderButton';
 
 const ProductDetailScreen = (props) => {
-  const {id, sendSomething} = props.route.params;
-
+  const { productId, sendSomething } = props.route.params; //nav v6 destruct
+  const selectedProduct = useSelector((state) =>
+    state.products.availableProducts.find((prod) => prod.id === productId)
+  );
+  console.log(selectedProduct);
   return (
     <View style={styles.screen}>
-      <DefaultText style={styles.text}>екран ПОДРОБНОСТИ ЗА ПРОДУКТА</DefaultText>
-      <DefaultText>status:{sendSomething}</DefaultText>
-      <DefaultText>id:{id}</DefaultText>
+      <ScrollView>
+        <DefaultText style={styles.text}>
+          екран ПОДРОБНОСТИ ЗА ПРОДУКТА
+        </DefaultText>
+        <DefaultText style={styles.temp}>status:{sendSomething}</DefaultText>
+        <DefaultText style={styles.temp}>id:{productId}</DefaultText>
+        <DefaultText style={styles.temp}>{selectedProduct.description}</DefaultText>
+      </ScrollView>
     </View>
   );
 };
@@ -28,6 +37,9 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.primaryColor,
     fontSize: 35,
+  },
+  temp: {
+    fontSize: 27,
   },
 });
 

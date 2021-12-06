@@ -1,28 +1,48 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Button,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+} from 'react-native';
 import Colors from '../../constants/Colors';
 
 const ProductItem = (props) => {
+  let TouchableCmp = TouchableOpacity;
+
+  if (Platform.OS === 'android' && Platform.Version >= 21) {
+    TouchableCmp = TouchableNativeFeedback;
+  }
+
   return (
     <View style={styles.product}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: props.imageUrl }} style={styles.image} />
-      </View>
-      <View style={styles.details}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.price}>{props.price.toFixed(2)} лв</Text>
-      </View>
-      <View style={styles.actions}>
-        <Button
-          color={Colors.primaryColor}
-          title="view details"
-          onPress={props.onViewDetail}
-        />
-        <Button
-          color={Colors.primaryColor}
-          title="Добави"
-          onPress={props.onAddToCart}
-        />
+      <View style={styles.touchable}>
+        <TouchableCmp onPress={props.onViewDetail} useForeground>
+			<View>
+          <View style={styles.imageContainer}>
+            <Image source={{ uri: props.imageUrl }} style={styles.image} />
+          </View>
+          <View style={styles.details}>
+            <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.price}>{props.price.toFixed(2)} лв</Text>
+          </View>
+          <View style={styles.actions}>
+            <Button
+              color={Colors.primaryColor}
+              title="view details"
+              onPress={props.onViewDetail}
+            />
+            <Button
+              color={Colors.primaryColor}
+              title="Добави"
+              onPress={props.onAddToCart}
+            />
+          </View></View>
+        </TouchableCmp>
       </View>
     </View>
   );
@@ -46,11 +66,10 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   imageContainer: {
-	width: '100%',
-	height: '60%',
-	borderTopLeftRadius: 10,
-	borderTopRightRadius: 10,
-	overflow: 'hidden'
+    width: '100%',
+    height: '60%',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   product: {
     shadowColor: 'black',
@@ -71,6 +90,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 4,
   },
+  touchable: {
+    overflow: 'hidden',
+	borderRadius: 10
+
+  }
 });
 
 export default ProductItem;
