@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, FlatList } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import CustomHeaderButton from '../../components/CustomHeaderButton';
 
 const ProductsOverviewScreen = (props) => {
+  const products = useSelector(state => state.products.availableProducts);
+
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
@@ -25,6 +28,7 @@ const ProductsOverviewScreen = (props) => {
     });
   }, [props.navigation]);
 
+
   return (
     <View style={styles.screen}>
       <TouchableWithoutFeedback
@@ -38,6 +42,7 @@ const ProductsOverviewScreen = (props) => {
           </DefaultText>
         </View>
       </TouchableWithoutFeedback>
+      <FlatList data={products} renderItem={itemData => <Text>{itemData.item.title}</Text>}/>
     </View>
   );
 };

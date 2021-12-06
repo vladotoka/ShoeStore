@@ -13,18 +13,18 @@ const Stack = createStackNavigator();
 
 function ShopStack() {
   return (
-    <Stack.Navigator initialRouteName="Shop"
+    <Stack.Navigator initialRouteName="ProductsOverview"
     screenOptions={{
       headerStyle: {
         backgroundColor:
-          Platform.OS === 'android' ? Colors.primaryColor : 'white',
+          Platform.OS === 'android' ? Colors.primaryColor : '',
       },
       headerTintColor:
         Platform.OS === 'android' ? 'white' : Colors.primaryColor,
       headerTitleStyle: { fontFamily: 'sevilla', fontSize: 24 },
       headerBackTitleStyle: { fontFamily: 'sevilla' },
     }}>
-      <Stack.Screen name="Shop" component={ProductsOverviewScreen} options={{title: "Магазин"}}/>
+      <Stack.Screen name="ProductsOverview" component={ProductsOverviewScreen} options={{title: "Всички Продукти"}}/>
       <Stack.Screen name="ProductDetails" component={ProductDetailScreen} options={{title: "Инфо за продукт"}}/>
       <Stack.Screen name="Cart" component={CartScreen} options={{title: "Количка"}}/>
     </Stack.Navigator>
