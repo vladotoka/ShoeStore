@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '20%',
+    height: '25%',
     paddingHorizontal: 20,
   },
   details: {
     alignItems: 'center',
-    height: '20%',
+    height: '15%',
     padding: 10,
   },
   image: {
@@ -87,8 +87,9 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   title: {
+    fontFamily: 'ubuntuBold',
     fontSize: 18,
-    marginVertical: 4,
+    marginVertical: 2,
   },
   touchable: {
     overflow: 'hidden',

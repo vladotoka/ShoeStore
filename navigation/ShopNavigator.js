@@ -21,8 +21,8 @@ function ShopStack() {
       },
       headerTintColor:
         Platform.OS === 'android' ? 'white' : Colors.primaryColor,
-      headerTitleStyle: { fontFamily: 'sevilla', fontSize: 24 },
-      headerBackTitleStyle: { fontFamily: 'sevilla' },
+      headerTitleStyle: { fontFamily: 'ubuntuBold', fontSize: 18 },
+      headerBackTitleStyle: { fontFamily: 'ubuntu' },
     }}>
       <Stack.Screen name="ProductsOverview" component={ProductsOverviewScreen} options={{title: "Всички Продукти"}}/>
       <Stack.Screen name="ProductDetails" component={ProductDetailScreen} options={({route}) => ({title: route.params.productName})}/>

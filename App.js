@@ -9,16 +9,19 @@ import { Provider } from 'react-redux';
 import ProductsOverviewScreen from './screens/shop/ProductsOverviewScreen';
 import ShopNavigator from './navigation/ShopNavigator';
 import productsReducer from './store/reducers/products';
+import cartReducer from './store/reducers/cart';
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart: cartReducer
 });
 
 const store = createStore(rootReducer);
 
 const fetchFonts = async () => {
   await Font.loadAsync({
-    sevilla: require('./assets/fonts/SevillaDecor.ttf'),
+    ubuntu: require('./assets/fonts/Ubuntu-R.ttf'),
+    ubuntuBold: require('./assets/fonts/Ubuntu-B.ttf')
   });
 };
 

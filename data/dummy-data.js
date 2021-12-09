@@ -7,14 +7,14 @@ const PRODUCTS = [
     'Червена тениска',
     'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
     'Червена тениска, идеална за дни с топли пурпурни залези.',
-    29.999
+    29.99
   ),
   new Product(
     'p2',
     'u1',
-    'Син мокет',
+    'Син килим',
     'https://images.pexels.com/photos/6292/blue-pattern-texture-macro.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-    'Fits your red shirt perfectly. To stand on. Not to wear it.',
+    'Комбинира се отлично с червената ви тениска. Като подова настилка, не като дреха',
     99.99
   ),
   new Product(

@@ -8,15 +8,17 @@ import {
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import CustomHeaderButton from '../../components/CustomHeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
+import * as cartActions from '../../store/actions/cart';
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
+  const dispatch = useDispatch();
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -51,10 +53,12 @@ const ProductsOverviewScreen = (props) => {
             props.navigation.navigate('ProductDetails', {
               sendSomething: 42,
               productId: itemData.item.id,
-              productName: itemData.item.title
+              productName: itemData.item.title,
             });
           }}
-          onAddToCart={() => {}}
+          onAddToCart={() => {
+            dispatch(cartActions.addToCart(itemData.item));
+          }}
         />
       )}
     />
