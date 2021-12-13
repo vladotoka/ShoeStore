@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   FlatList,
+  Platform,
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -12,9 +13,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
-import CustomHeaderButton from '../../components/CustomHeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
+import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
@@ -26,9 +27,8 @@ const ProductsOverviewScreen = (props) => {
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item
             title="Cart"
-            iconName={'ios-cart-outline'}
+            iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
             onPress={() => {
-              //   alert('this is cart');
               props.navigation.navigate('Cart', { sendSomething: 42 });
             }}
           />
@@ -38,9 +38,6 @@ const ProductsOverviewScreen = (props) => {
   }, [props.navigation]);
 
   return (
-    // onPress={() => {
-    //   props.navigation.navigate('ProductDetails', { sendSomething: 42 });
-    // }}
 
     <FlatList
       data={products}

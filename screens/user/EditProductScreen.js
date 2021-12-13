@@ -5,7 +5,6 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
-import CustomHeaderButton from '../../components/CustomHeaderButton';
 
 const EditProductScreen = (props) => {
   return (

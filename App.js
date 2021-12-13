@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { useFonts } from 'expo-font';
 
 import ProductsOverviewScreen from './screens/shop/ProductsOverviewScreen';
 import ShopNavigator from './navigation/ShopNavigator';
@@ -18,25 +18,14 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer);
 
-const fetchFonts = async () => {
-  await Font.loadAsync({
-    ubuntu: require('./assets/fonts/Ubuntu-R.ttf'),
-    ubuntuBold: require('./assets/fonts/Ubuntu-B.ttf')
-  });
-};
-
 export default function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
 
-  if (!fontLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setFontLoaded(true)}
-        onError={() => console.warn('font lodinng error')}
-      />
-    );
-  }
+  let [fontsLoaded] =useFonts({
+    'ubuntu': require('./assets/fonts/Ubuntu-R.ttf'),
+    'ubuntuBold': require('./assets/fonts/Ubuntu-B.ttf')
+  });
+
+  if (!fontsLoaded) {return <AppLoading />;}
 
   return (
     <Provider store={store}>
