@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from '../actions/cart';
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
 import CartItem from '../../models/cart-item';
 
 const initialState = {
@@ -33,6 +33,30 @@ export default (state = initialState, action) => {
         ...state,
         items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
         totalAmount: state.totalAmount + prodPrice,
+      };
+
+    case REMOVE_FROM_CART:
+      const idToRemove = state.items[action.pid];
+      let updatedCartItems;
+
+      //повече от 1бр на маркирания продукт -> намали с един
+      if (idToRemove.quantity > 1) {
+        const updatedCartItem = new CartItem(
+          idToRemove.quantity - 1,
+          idToRemove.productPrice,
+          idToRemove.productTitle,
+          idToRemove.sum - idToRemove.productPrice
+        );
+        updatedCartItems = { ...state.items, [action.pid]: updatedCartItem };
+      } else {
+        //selected product is only 1pcs, remove prod key from state.items
+        updatedCartItems = { ...state.items };
+        delete updatedCartItems[action.pid];
+      }
+      return {
+        ...state,
+        items: { ...updatedCartItems },
+        totalAmount: state.totalAmount - idToRemove.productPrice,
       };
   }
   return state;

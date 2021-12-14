@@ -28,7 +28,7 @@ const PRODUCTS = [
   new Product(
     'p4',
     'u3',
-    'Книгата - Limited Edition',
+    'Книга-LimitedEdition',
     'https://images.pexels.com/photos/46274/pexels-photo-46274.jpeg?cs=srgb&dl=blur-blurred-book-pages-46274.jpg&fm=jpg',
     "Какво пише вътре? Има ли значение? Тя е limited edition!",
     15.99

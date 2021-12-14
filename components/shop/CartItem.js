@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   quantity: {
     fontFamily: 'ubuntu',
     color: '#888',
-    fontSize: 16,
+    fontSize: 14,
   },
   mainText: {
     fontFamily: 'ubuntuBold',
-    fontSize: 16,
+    fontSize: 14,
   },
   deleteButton: {
     marginLeft: 20,
