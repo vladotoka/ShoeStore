@@ -8,6 +8,7 @@ import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
+import * as ordersActions from '../../store/actions/orders';
 
 
 const CartScreen = (props) => {
@@ -45,7 +46,8 @@ const CartScreen = (props) => {
           color={Colors.accentColor}
           disabled={cartItems.length === 0}
           onPress={() => {
-            console.log('плащане');
+            console.log('плащане'); //addOrder = (cartItems, totalAmount)
+            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
           }}
         />
       </View>

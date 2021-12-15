@@ -34,11 +34,21 @@ const ProductsOverviewScreen = (props) => {
           />
         </HeaderButtons>
       ),
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === 'android' ? 'menu-sharp' : 'ios-menu'}
+            onPress={() => {
+              props.navigation.openDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
     });
   }, [props.navigation]);
 
   return (
-
     <FlatList
       data={products}
       renderItem={(itemData) => (
