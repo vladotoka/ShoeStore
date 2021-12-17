@@ -55,7 +55,7 @@ function MainShopNavigator() {
       screenOptions={{
         // headerShown: false,
         drawerActiveTintColor: Colors.primaryColor,
-        drawerLableStyle: { fontFamily: 'ubuntuB' },
+        drawerLableStyle: { fontFamily: 'ubuntuBold' },
         headerStyle: {
           backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
         },

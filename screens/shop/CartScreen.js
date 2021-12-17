@@ -29,7 +29,6 @@ const CartScreen = (props) => {
     return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
   });
 
-  console.log(cartItems);
 
   return (
     <View style={styles.screen}>
@@ -46,7 +45,6 @@ const CartScreen = (props) => {
           color={Colors.accentColor}
           disabled={cartItems.length === 0}
           onPress={() => {
-            console.log('плащане'); //addOrder = (cartItems, totalAmount)
             dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
           }}
         />
@@ -59,6 +57,7 @@ const CartScreen = (props) => {
             quantity={itemData.item.quantity}
             title={itemData.item.productTitle}
             amount={itemData.item.sum}
+            deletable
             onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.productId))}
           />
         )}
