@@ -6,16 +6,25 @@ import OrderItem from '../../components/shop/OrderItem';
 
 const OrdersScreen = (props) => {
   const orders = useSelector((state) => state.orders.orders);
+  if (orders.length === 0) {
+    return (
+      <View>
+        <Text>Упс! Нямате никакви поръчки.</Text>
+      </View>
+    );
+  }
   return (
-    <View>
-      <Text>екран Поръчки</Text>
-      <FlatList
-        data={orders}
-        renderItem={(itemData) => (
-            <OrderItem amount={itemData.item.totalAmount} date={itemData.item.readableDate} items={itemData.item.items} props42={itemData.item} />
-        )}
-      />
-    </View>
+    <FlatList
+      data={orders}
+      renderItem={(itemData) => (
+        <OrderItem
+          amount={itemData.item.totalAmount}
+          date={itemData.item.readableDate}
+          items={itemData.item.items}
+          props42={itemData.item}
+        />
+      )}
+    />
   );
 };
 

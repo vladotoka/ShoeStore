@@ -11,13 +11,15 @@ import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 
-const Stack = createStackNavigator();
+const ShopStack = createStackNavigator();
+const AdminStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function ShopStack() {
+function ShopStackScreen() {
   return (
-    <Stack.Navigator
+    <ShopStack.Navigator
       initialRouteName="ProductsOverview"
       screenOptions={{
         headerStyle: {
@@ -29,22 +31,54 @@ function ShopStack() {
         headerBackTitleStyle: { fontFamily: 'ubuntu' },
       }}
     >
-      <Stack.Screen
+      <ShopStack.Screen
         name="ProductsOverview"
         component={ProductsOverviewScreen}
         options={{ title: 'Всички Продукти' }}
       />
-      <Stack.Screen
+      <ShopStack.Screen
         name="ProductDetails"
         component={ProductDetailScreen}
         options={({ route }) => ({ title: route.params.productName })}
       />
-      <Stack.Screen
+      <ShopStack.Screen
         name="Cart"
         component={CartScreen}
         options={{ title: 'Количка' }}
       />
-    </Stack.Navigator>
+    </ShopStack.Navigator>
+  );
+}
+function AdminStackScreen() {
+  return (
+    <AdminStack.Navigator
+      initialRouteName="UserProductsOverview"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
+        },
+        headerTintColor:
+          Platform.OS === 'android' ? 'white' : Colors.primaryColor,
+        headerTitleStyle: { fontFamily: 'ubuntuBold', fontSize: 18 },
+        headerBackTitleStyle: { fontFamily: 'ubuntu' },
+      }}
+    >
+      <AdminStack.Screen
+        name="UserProductsOverview"
+        component={UserProductsScreen}
+        options={{ title: 'Твоите Продукти' }}
+      />
+      {/* <AdminStack.Screen
+        name="ProductDetails"
+        component={ProductDetailScreen}
+        options={({ route }) => ({ title: route.params.productName })}
+      />
+      <AdminStack.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ title: 'Количка' }}
+      /> */}
+    </AdminStack.Navigator>
   );
 }
 
@@ -66,7 +100,7 @@ function MainShopNavigator() {
     >
       <Drawer.Screen
         name="main"
-        component={ShopStack}
+        component={ShopStackScreen}
         options={{
           drawerLabel: 'Магазин',
           headerShown: false,
@@ -94,6 +128,22 @@ function MainShopNavigator() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="myProducts"
+        component={AdminStackScreen}
+        options={{
+          drawerLabel: 'Твоите Продукти',
+          headerShown: false,
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'leaf' : 'leaf'}
+              size={drawerConfig.size}
+              color={drawerConfig.color}
+            />
+          ),
+        }}
+      />
+
     </Drawer.Navigator>
   );
 }

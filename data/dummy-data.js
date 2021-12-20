@@ -14,7 +14,7 @@ const PRODUCTS = [
     'u1',
     'Син килим',
     'https://images.pexels.com/photos/6292/blue-pattern-texture-macro.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-    'Комбинира се отлично с червената ви тениска. Като подова настилка, не като дреха',
+    'Комбинира се отлично с червената ви тениска. Използва се за подова настилка, а не дреха',
     99.99
   ),
   new Product(
@@ -36,17 +36,17 @@ const PRODUCTS = [
   new Product(
     'p5',
     'u3',
-    'PowerBook',
+    'Мак',
     'https://get.pxhere.com/photo/laptop-computer-macbook-mac-screen-water-board-keyboard-technology-air-mouse-photo-airport-aircraft-tablet-aviation-office-black-monitor-keys-graphic-hardware-image-pc-exhibition-multimedia-calculator-vector-water-cooling-floppy-disk-phased-out-desktop-computer-netbook-personal-computer-computer-monitor-electronic-device-computer-hardware-display-device-448748.jpg',
-    'Awesome hardware, crappy keyboard and a hefty price. Buy now before a new one is released!',
+    'Чудесен хардуер, кофти клавиатура и солидна цена. Купи сега, преди да пуснат нов модел!',
     2299.99
   ),
   new Product(
     'p6',
     'u1',
-    'Pen & Paper',
+    'Писалка и тетрадка',
     'https://cdn.pixabay.com/photo/2015/10/03/02/14/pen-969298_1280.jpg',
-    "Can be used for role-playing (not the kind of role-playing you're thinking about...).",
+    "Съвместими с всичко което искате да запишете... ако знаете да пишете.",
     5.49
   )
 ];
