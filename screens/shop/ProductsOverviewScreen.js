@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Platform,
+  Button,
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -20,6 +21,12 @@ import CustomHeaderButton from '../../components/UI/HeaderButton';
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
+  const selectItemHandler = (id, title) => {
+    props.navigation.navigate('ProductDetails', {
+      productId: id,
+      productName: title,
+    });
+  };
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -56,17 +63,25 @@ const ProductsOverviewScreen = (props) => {
           title={itemData.item.title}
           price={itemData.item.price}
           imageUrl={itemData.item.imageUrl}
-          onViewDetail={() => {
-            props.navigation.navigate('ProductDetails', {
-              sendSomething: 42,
-              productId: itemData.item.id,
-              productName: itemData.item.title,
-            });
+          onSelect={() => {
+            selectItemHandler(itemData.item.id, itemData.item.title);
           }}
-          onAddToCart={() => {
-            dispatch(cartActions.addToCart(itemData.item));
-          }}
-        />
+        >
+          <Button
+            color={Colors.primaryColor}
+            title="подробности"
+            onPress={() => {
+              selectItemHandler(itemData.item.id, itemData.item.title);
+            }}
+          />
+          <Button
+            color={Colors.primaryColor}
+            title="купи"
+            onPress={() => {
+              dispatch(cartActions.addToCart(itemData.item));
+            }}
+          />
+        </ProductItem>
       )}
     />
   );
