@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, StyleSheet, FlatList, Button } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
 
@@ -10,21 +10,27 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import DefaultText from '../../components/DefaultText';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
+import * as productsActions from '../../store/actions/products';
+
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+  const dispatch = useDispatch();
+  const editItemHandler = (id) => {
+    //
+    const title = id ? 'редкакция' : 'нов продукт';
+    props.navigation.navigate('EditProduct', {productId: id, headerTitle: title});
+  }
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item
-            IconComponent={FontAwesome5}
-            title="Cat"
-            iconName={'cat'}
+            title="Add"
+            iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
             onPress={() => {
-              // props.navigation.navigate('Cart', { sendSomething: 42 });
-              alert('мияуу ^^');
+              editItemHandler('false');
             }}
           />
         </HeaderButtons>
@@ -54,8 +60,23 @@ const UserProductsScreen = (props) => {
             title={itemData.item.title}
             price={itemData.item.price}
             onViewDetail={() => {}}
-            onAddToCart={() => {}}
-          />
+            onSelect={() => {editItemHandler(itemData.item.id)}}
+          >
+            <Button
+              color={Colors.primaryColor}
+              title="промени"
+              onPress={() => {
+                editItemHandler(itemData.item.id);
+              }}
+            />
+            <Button
+              color={Colors.primaryColor}
+              title="изтрий"
+              onPress={() => {
+                dispatch(productsActions.deleteProduct(itemData.item.id));
+              }}
+            />
+          </ProductItem>
         )}
       />
     </View>

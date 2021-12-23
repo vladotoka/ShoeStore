@@ -10,7 +10,6 @@ import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
 
-
 const CartScreen = (props) => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -26,9 +25,10 @@ const CartScreen = (props) => {
         sum: state.cart.items[key].sum,
       });
     }
-    return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
+    return transformedCartItems.sort((a, b) =>
+      a.productId > b.productId ? 1 : -1
+    );
   });
-
 
   return (
     <View style={styles.screen}>
@@ -37,7 +37,7 @@ const CartScreen = (props) => {
         <DefaultText style={styles.summaryText}>
           Oбща сума:{' '}
           <DefaultText style={styles.amount}>
-            {cartTotalAmount.toFixed(2)}лв
+            {Math.round(cartTotalAmount.toFixed(2) * 100) / 100}лв
           </DefaultText>
         </DefaultText>
         <Button
@@ -58,7 +58,9 @@ const CartScreen = (props) => {
             title={itemData.item.productTitle}
             amount={itemData.item.sum}
             deletable
-            onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.productId))}
+            onRemove={() =>
+              dispatch(cartActions.removeFromCart(itemData.item.productId))
+            }
           />
         )}
       />

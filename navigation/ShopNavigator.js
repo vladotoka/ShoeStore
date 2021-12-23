@@ -12,6 +12,7 @@ import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 const ShopStack = createStackNavigator();
 const AdminStack = createStackNavigator();
@@ -66,18 +67,18 @@ function AdminStackScreen() {
       <AdminStack.Screen
         name="UserProductsOverview"
         component={UserProductsScreen}
-        options={{ title: 'Твоите Продукти' }}
+        options={{ title: 'Администратор' }}
       />
       {/* <AdminStack.Screen
         name="ProductDetails"
         component={ProductDetailScreen}
         options={({ route }) => ({ title: route.params.productName })}
-      />
-      <AdminStack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{ title: 'Количка' }}
       /> */}
+      <AdminStack.Screen
+        name="EditProduct"
+        component={EditProductScreen}
+        options={({route})=> ({title: route.params.headerTitle})}
+      />
     </AdminStack.Navigator>
   );
 }
@@ -132,7 +133,7 @@ function MainShopNavigator() {
         name="myProducts"
         component={AdminStackScreen}
         options={{
-          drawerLabel: 'Твоите Продукти',
+          drawerLabel: 'Администратор',
           headerShown: false,
           drawerIcon: (drawerConfig) => (
             <Ionicons
