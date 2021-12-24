@@ -18,7 +18,7 @@ const UserProductsScreen = (props) => {
   const dispatch = useDispatch();
   const editItemHandler = (id) => {
     //
-    const title = id ? 'редкакция' : 'нов продукт';
+    const title = id ? 'редакция' : 'нов продукт';
     props.navigation.navigate('EditProduct', {productId: id, headerTitle: title});
   }
 
@@ -30,7 +30,7 @@ const UserProductsScreen = (props) => {
             title="Add"
             iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
             onPress={() => {
-              editItemHandler('false');
+              editItemHandler(false);
             }}
           />
         </HeaderButtons>

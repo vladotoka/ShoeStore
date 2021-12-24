@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -6,10 +6,11 @@ import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as productsActions from '../../store/actions/products';
 
 const EditProductScreen = (props) => {
-  const { productId } = props.route.params; //nav v6 destruct
+  const { productId } = props.route.params; //nav v6 destruct получава id или false
   const editedProduct = useSelector((state) =>
     state.products.availableProducts.find((prod) => prod.id === productId)
   );
@@ -21,14 +22,22 @@ const EditProductScreen = (props) => {
   const [description, setDescription] = useState(
     editedProduct ? editedProduct.description : ''
   );
-  console.log(editedProduct);
-  // if (props.route.params.productId) {
-  //   console.log('с ИД->режим ред');
-  //   // setTitle(editedProduct.title);
-  //   // setImage(editedProduct.imageUrl);
-  //   // setPrice(editedProduct.price);
-  //   // setDescription(editedProduct.description);
-  // }
+  const dispatch = useDispatch();
+
+  const submitHandler = (pass) => {
+    if (editedProduct) {
+      //режим редакция (id, title, description, imageUrl)
+      console.log('dispatch edit');
+      console.log(`new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`);
+      dispatch(productsActions.updateProduct(productId, title, description, image));
+    } else {
+      //режим нов (title, description, imageUrl, price)
+      console.log('dispatch NEWprod');
+      console.log(`new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`);
+      dispatch(productsActions.createProduct(title, description, image, +prodPrice)); //title, description, imageUrl, price
+
+    }
+  };
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -40,13 +49,13 @@ const EditProductScreen = (props) => {
               Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
             }
             onPress={() => {
-              alert('запиши');
+              submitHandler(42);
             }}
           />
         </HeaderButtons>
       ),
     });
-  }, [props.navigation]);
+  }, [props.navigation, title, image, prodPrice, description]);
 
   return (
     <ScrollView>
