@@ -1,26 +1,42 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Button } from 'react-native';
+import { View, StyleSheet, FlatList, Button, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { FontAwesome5 } from '@expo/vector-icons';
 
-import DefaultText from '../../components/DefaultText';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
 import * as productsActions from '../../store/actions/products';
-
 
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
   const editItemHandler = (id) => {
-    //
     const title = id ? 'редакция' : 'нов продукт';
-    props.navigation.navigate('EditProduct', {productId: id, headerTitle: title});
-  }
+    props.navigation.navigate('EditProduct', {
+      productId: id,
+      headerTitle: title,
+    });
+  };
+
+  const deleteHandler = (pid) => {
+    Alert.alert(
+      'Необходимо е потвърждение!',
+      'Потвърждавате ли избора си да изтриете този продукт?',
+      [
+        { text: 'Не', style: 'default' },
+        {
+          text: 'Да',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(productsActions.deleteProduct(pid));
+          },
+        },
+      ]
+    );
+  };
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -51,7 +67,6 @@ const UserProductsScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      <DefaultText style={styles.text}>екран НАСТРОЙКИ ПРОДУКТИ</DefaultText>
       <FlatList
         data={userProducts}
         renderItem={(itemData) => (
@@ -60,7 +75,9 @@ const UserProductsScreen = (props) => {
             title={itemData.item.title}
             price={itemData.item.price}
             onViewDetail={() => {}}
-            onSelect={() => {editItemHandler(itemData.item.id)}}
+            onSelect={() => {
+              editItemHandler(itemData.item.id);
+            }}
           >
             <Button
               color={Colors.primaryColor}
@@ -73,7 +90,7 @@ const UserProductsScreen = (props) => {
               color={Colors.primaryColor}
               title="изтрий"
               onPress={() => {
-                dispatch(productsActions.deleteProduct(itemData.item.id));
+                deleteHandler(itemData.item.id);
               }}
             />
           </ProductItem>

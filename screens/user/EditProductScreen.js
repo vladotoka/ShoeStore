@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 
-import DefaultText from '../../components/DefaultText';
-import Colors from '../../constants/Colors';
 import { useSelector, useDispatch } from 'react-redux';
 import * as productsActions from '../../store/actions/products';
 
@@ -28,15 +26,23 @@ const EditProductScreen = (props) => {
     if (editedProduct) {
       //режим редакция (id, title, description, imageUrl)
       console.log('dispatch edit');
-      console.log(`new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`);
-      dispatch(productsActions.updateProduct(productId, title, description, image));
+      console.log(
+        `new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`
+      );
+      dispatch(
+        productsActions.updateProduct(productId, title, description, image)
+      );
     } else {
       //режим нов (title, description, imageUrl, price)
       console.log('dispatch NEWprod');
-      console.log(`new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`);
-      dispatch(productsActions.createProduct(title, description, image, +prodPrice)); //title, description, imageUrl, price
-
+      console.log(
+        `new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`
+      );
+      dispatch(
+        productsActions.createProduct(title, description, image, +prodPrice)
+      ); //title, description, imageUrl, price
     }
+    props.navigation.goBack();
   };
 
   React.useLayoutEffect(() => {
@@ -59,10 +65,6 @@ const EditProductScreen = (props) => {
 
   return (
     <ScrollView>
-      <View>
-        <DefaultText style={styles.text}>екран РЕДАКЦИЯ НА ПРОДУКТ</DefaultText>
-        {productId && <DefaultText>productId:{productId}</DefaultText>}
-      </View>
       <View style={styles.form}>
         <View style={styles.formControl}>
           <Text style={styles.label}>име</Text>

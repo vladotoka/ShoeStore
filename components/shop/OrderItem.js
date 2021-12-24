@@ -3,19 +3,20 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 
 import CartItem from './CartItem';
 import Colors from '../../constants/Colors';
+import Card from '../UI/Card';
 
 const OrderItem = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   console.log(props.props42);
   return (
-    <View style={styles.orderItem}>
+    <Card style={styles.orderItem}>
       <View style={styles.summary}>
         <Text style={styles.totalAmount}>{props.amount.toFixed(2)}лв</Text>
         <Text style={styles.date}>{props.date}</Text>
       </View>
       <Button
         color={Colors.primary}
-        title={showDetails ? "Скрий подробности" : "Виж подробно"}
+        title={showDetails ? 'Скрий подробности' : 'Виж подробно'}
         onPress={() => {
           setShowDetails((current) => !current);
         }}
@@ -32,19 +33,12 @@ const OrderItem = (props) => {
           ))}
         </View>
       )}
-    </View>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   orderItem: {
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
     margin: 20,
     padding: 10,
     alignItems: 'center',
@@ -66,8 +60,8 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   detailItems: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 export default OrderItem;
