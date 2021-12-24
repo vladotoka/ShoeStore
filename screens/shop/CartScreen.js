@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
 
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import DefaultText from '../../components/DefaultText';
@@ -12,7 +11,6 @@ import * as ordersActions from '../../store/actions/orders';
 import Card from '../../components/UI/Card';
 
 const CartScreen = (props) => {
-  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => {

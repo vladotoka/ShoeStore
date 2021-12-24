@@ -1,22 +1,13 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Button,
-} from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import * as cartActions from '../../store/actions/cart';
 
 const ProductDetailScreen = (props) => {
-  const { productId, sendSomething } = props.route.params; //nav v6 destruct
+  const { productId } = props.route.params; //nav v6 destruct
   const selectedProduct = useSelector((state) =>
     state.products.availableProducts.find((prod) => prod.id === productId)
   );

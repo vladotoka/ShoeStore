@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
+import DefaultText from '../../components/DefaultText';
 
 import OrderItem from '../../components/shop/OrderItem';
 
@@ -9,7 +10,7 @@ const OrdersScreen = (props) => {
   if (orders.length === 0) {
     return (
       <View>
-        <Text>Упс! Нямате никакви поръчки.</Text>
+        <DefaultText style={styles.text}>Упс! Нямате никакви поръчки.</DefaultText>
       </View>
     );
   }
@@ -21,7 +22,6 @@ const OrdersScreen = (props) => {
           amount={itemData.item.totalAmount}
           date={itemData.item.readableDate}
           items={itemData.item.items}
-          props42={itemData.item}
         />
       )}
     />
@@ -29,11 +29,8 @@ const OrdersScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
   text: {
-    fontSize: 35,
+    fontSize: 22,
   },
 });
 

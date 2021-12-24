@@ -22,22 +22,14 @@ const EditProductScreen = (props) => {
   );
   const dispatch = useDispatch();
 
-  const submitHandler = (pass) => {
+  const submitHandler = () => {
     if (editedProduct) {
       //режим редакция (id, title, description, imageUrl)
-      console.log('dispatch edit');
-      console.log(
-        `new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`
-      );
       dispatch(
         productsActions.updateProduct(productId, title, description, image)
       );
     } else {
       //режим нов (title, description, imageUrl, price)
-      console.log('dispatch NEWprod');
-      console.log(
-        `new title:${title} img:${image} descrip:${description} price:${prodPrice} VIKS${pass}`
-      );
       dispatch(
         productsActions.createProduct(title, description, image, +prodPrice)
       ); //title, description, imageUrl, price
@@ -55,7 +47,7 @@ const EditProductScreen = (props) => {
               Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
             }
             onPress={() => {
-              submitHandler(42);
+              submitHandler();
             }}
           />
         </HeaderButtons>
@@ -107,11 +99,6 @@ const EditProductScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  formControl: {},
-  // text: {
-  //   color: Colors.primaryColor,
-  //   fontSize: 35,
-  // },
   form: {
     margin: 20,
   },
@@ -123,10 +110,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   input: {
-    // paddingHorizontal: 2,
-    // paddingVertical: 5,
-    // borderBottomColor: '#ccc',
-    // borderBottomWidth: 1,
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
 });
 

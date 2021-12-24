@@ -1,9 +1,5 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
   FlatList,
   Platform,
   Button,
@@ -12,7 +8,6 @@ import {
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
-import DefaultText from '../../components/DefaultText';
 import Colors from '../../constants/Colors';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
@@ -86,17 +81,5 @@ const ProductsOverviewScreen = (props) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: Colors.primaryColor,
-    fontSize: 35,
-  },
-});
 
 export default ProductsOverviewScreen;
