@@ -6,11 +6,11 @@ export const deleteProduct = (productID) => {
   return { type: DELETE_PRODUCT, pid: productID };
 };
 
-export const createProduct = (titles, description, imageUrl, price) => {
+export const createProduct = (title, description, imageUrl, price) => {
   return {
     type: CREATE_PRODUCT,
     productData: {
-      titles,
+      title,
       description,
       imageUrl,
       price,
