@@ -1,8 +1,9 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
+import thunk from 'redux-thunk';
 
 import ShopNavigator from './navigation/ShopNavigator';
 import productsReducer from './store/reducers/products';
@@ -15,7 +16,7 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default function App() {
   let [fontsLoaded] = useFonts({

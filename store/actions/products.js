@@ -7,14 +7,33 @@ export const deleteProduct = (productID) => {
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
-  return {
-    type: CREATE_PRODUCT,
-    productData: {
-      title,
-      description,
-      imageUrl,
-      price,
-    },
+  return async (dispatch) => {
+    //async code
+    const response = await fetch(
+      'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products.json',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, description, imageUrl, price }),
+      }
+    );
+    //firebase връща ид на новия запис с отговора в ключ "name":
+    const resData = await response.json();
+
+    console.log(resData);
+
+    dispatch({
+      type: CREATE_PRODUCT,
+      productData: {
+        id: resData.name,
+        title,
+        description,
+        imageUrl,
+        price,
+      },
+    });
   };
 };
 

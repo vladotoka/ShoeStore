@@ -15,9 +15,9 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE_PRODUCT:
       //constructor params new Product( id, ownerId, title, imageUrl, description, price)
-      //action.productData (title, description, imageUrl, price)
+      //action.productData. (title, description, imageUrl, price, id(from firebase))
       const newProduct = new Product(
-        new Date().toString(),
+       action.productData.id,
         'u1',
         action.productData.title,
         action.productData.imageUrl,
