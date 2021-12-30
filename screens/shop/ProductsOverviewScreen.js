@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
+  View,
   FlatList,
   Platform,
   Button,
+  ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
+import DefaultText from '../../components/DefaultText';
 
 import Colors from '../../constants/Colors';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
+import * as productsActions from '../../store/actions/products';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const ProductsOverviewScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
+
+  const loadProducts = useCallback(async () => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(productsActions.fetchProducts());
+    } catch (err) {
+      console.log(err);
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [dispatch, setIsLoading, setError]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [dispatch, loadProducts]);
+
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('ProductDetails', {
       productId: id,
@@ -50,6 +74,38 @@ const ProductsOverviewScreen = (props) => {
     });
   }, [props.navigation]);
 
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <DefaultText style={{ fontSize: 18 }}>Възникна грешка!</DefaultText>
+        <DefaultText>{error}</DefaultText>
+        <Button
+          title="презареди"
+          onPress={loadProducts}
+          color={Colors.primaryColor}
+        />
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primaryColor} />
+      </View>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <DefaultText>
+          Няма продукти. Добавете нови от меню администартор.
+        </DefaultText>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={products}
@@ -83,3 +139,7 @@ const ProductsOverviewScreen = (props) => {
 };
 
 export default ProductsOverviewScreen;
+
+const styles = StyleSheet.create({
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+});

@@ -3,6 +3,7 @@ import Product from '../../models/product';
 import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
+  SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from '../actions/products';
 
@@ -13,11 +14,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        availableProducts: action.products,
+        userProducts: action.products.filter(
+          (prod) => prod.ownerId === 'u1'
+        ),
+      };
     case CREATE_PRODUCT:
       //constructor params new Product( id, ownerId, title, imageUrl, description, price)
       //action.productData. (title, description, imageUrl, price, id(from firebase))
       const newProduct = new Product(
-       action.productData.id,
+        action.productData.id,
         'u1',
         action.productData.title,
         action.productData.imageUrl,
