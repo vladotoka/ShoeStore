@@ -1,14 +1,16 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useReducer, useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/HeaderButton';
+import Colors from '../../constants/Colors';
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as productsActions from '../../store/actions/products';
@@ -41,6 +43,9 @@ const formReducer = (state, action) => {
 };
 
 const EditProductScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
   const { productId } = props.route.params; //nav v6 destruct получава id или false
   const editedProduct = useSelector((state) =>
     state.products.availableProducts.find((prod) => prod.id === productId)
@@ -63,35 +68,48 @@ const EditProductScreen = (props) => {
     formIsValid: editedProduct ? true : false,
   });
 
-  const submitHandler = () => {
-    if (!formState.formIsValid) {
-      Alert.alert('Непълни данни!', 'Моля проверете грешките във формата.', [
-        { text: 'Добре' },
-      ]);
-      return;
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Грешка', error, [{ text: 'Добре' }]);
     }
-    if (editedProduct) {
-      //режим редакция (id, title, description, imageUrl)
-      dispatch(
-        productsActions.updateProduct(
-          productId,
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl
-        )
-      );
-    } else {
-      //режим нов (title, description, imageUrl, price)
-      dispatch(
-        productsActions.createProduct(
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl,
-          +formState.inputValues.price
-        )
-      ); //title, description, imageUrl, price
+  }, [error]);
+
+  const submitHandler = async () => {
+    try {
+      if (!formState.formIsValid) {
+        Alert.alert('Непълни данни!', 'Моля проверете грешките във формата.', [
+          { text: 'Добре' },
+        ]);
+        return;
+      }
+      setError(null);
+      setIsLoading(true);
+      if (editedProduct) {
+        //режим редакция (id, title, description, imageUrl)
+        await dispatch(
+          productsActions.updateProduct(
+            productId,
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl
+          )
+        );
+      } else {
+        //режим нов (title, description, imageUrl, price)
+        await dispatch(
+          productsActions.createProduct(
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
+          )
+        ); //title, description, imageUrl, price
+      }
+      props.navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
-    props.navigation.goBack();
+    setIsLoading(false);
   };
 
   const inputChangeHandler = useCallback(
@@ -123,6 +141,14 @@ const EditProductScreen = (props) => {
       ),
     });
   }, [props.navigation, formState]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primaryColor} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -192,6 +218,11 @@ const EditProductScreen = (props) => {
 const styles = StyleSheet.create({
   form: {
     margin: 20,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
