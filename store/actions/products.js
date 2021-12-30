@@ -13,9 +13,8 @@ export const fetchProducts = () => {
         'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products.json'
       );
 
-      if(!response.ok) {
-
-        throw new Error('Нещо не е наред със заявката!')
+      if (!response.ok) {
+        throw new Error('Нещо не е наред със заявката!');
       }
 
       //firebase GET request returns: {"pid1": {product DATA}, "pid2": {product DATA}, ..}
@@ -45,7 +44,18 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = (productID) => {
-  return { type: DELETE_PRODUCT, pid: productID };
+  return async dispatch => {
+    console.log('fetch DELETE update product INV');
+    await fetch(
+      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${productID}.json`,
+      {
+        method: 'DELETE',
+      }
+    );
+
+    dispatch({ type: DELETE_PRODUCT, pid: productID })
+  };
+
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
@@ -80,13 +90,27 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      title,
-      description,
-      imageUrl,
-    },
+  return async (dispatch) => {
+    console.log('fetch POST update product INV');
+    await fetch(
+      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${id}.json`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, description, imageUrl }),
+      }
+    );
+
+    dispatch({
+      type: UPDATE_PRODUCT,
+      pid: id,
+      productData: {
+        title,
+        description,
+        imageUrl,
+      },
+    });
   };
 };
