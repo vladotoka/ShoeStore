@@ -1,5 +1,12 @@
-import React from 'react';
-import { View, StyleSheet, FlatList, Button, Alert } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Button,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
@@ -11,6 +18,7 @@ import Colors from '../../constants/Colors';
 import * as productsActions from '../../store/actions/products';
 
 const UserProductsScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
   const editItemHandler = (id) => {
@@ -31,11 +39,22 @@ const UserProductsScreen = (props) => {
           text: 'Да',
           style: 'destructive',
           onPress: () => {
-            dispatch(productsActions.deleteProduct(pid));
+            secondDeleteHandler(pid);
           },
         },
       ]
     );
+  };
+
+  const secondDeleteHandler = async (pid) => {
+    try {
+      setIsLoading(true);
+      await dispatch(productsActions.deleteProduct(pid));
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      Alert.alert('Грешка', err.message, [{ text: 'Добре' }]);
+    }
   };
 
   React.useLayoutEffect(() => {
@@ -64,6 +83,14 @@ const UserProductsScreen = (props) => {
       ),
     });
   }, [props.navigation]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primaryColor} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
@@ -105,6 +132,11 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.primaryColor,
     fontSize: 35,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
