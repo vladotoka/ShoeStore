@@ -25,6 +25,7 @@ const ProductsOverviewScreen = (props) => {
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
+    console.log("LOADPRODUCTS INV.");
     setError(null);
     setIsLoading(true);
     try {
@@ -37,8 +38,14 @@ const ProductsOverviewScreen = (props) => {
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    loadProducts();
-  }, [dispatch, loadProducts]);
+    const willFocusSub = props.navigation.addListener('focus', loadProducts);
+
+    return willFocusSub;
+  }, [loadProducts]);
+
+  // useEffect(() => {
+  //   loadProducts();
+  // }, [dispatch, loadProducts]);
 
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('ProductDetails', {
