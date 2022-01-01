@@ -76,6 +76,11 @@ export const createProduct = (title, description, imageUrl, price) => {
         body: JSON.stringify({ title, description, imageUrl, price }),
       }
     );
+
+    if(!response.ok) {
+      throw new Error('Упс! Нещо се обърка...');
+    }
+
     //firebase връща ид на новия запис с отговора в ключ "name":
     const resData = await response.json();
 

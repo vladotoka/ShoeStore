@@ -9,13 +9,13 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_ORDER:
       //order constructor( id, items, totalAmount, date)
-      //action.orderData: { items: cartItems, amount: totalAmount },
+      //action.orderData: { items: cartItems, amount: totalAmount, id, date },
 
       const newOrder = new Order(
-        new Date().toString(),
+        action.orderData.id,
         action.orderData.items,
         action.orderData.amount,
-        new Date()
+        action.orderData.date
       );
       return {
         ...state,

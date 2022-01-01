@@ -36,7 +36,8 @@ const ProductsOverviewScreen = (props) => {
     }
     setIsLoading(false);
   }, [dispatch, setIsLoading, setError]);
-
+  
+  //презареждане да продуктите от сървъра при всяко отваряне на екарана (т.к. reactnavigation не пресъздава копмпонентите всеки път )
   useEffect(() => {
     const willFocusSub = props.navigation.addListener('focus', loadProducts);
 
