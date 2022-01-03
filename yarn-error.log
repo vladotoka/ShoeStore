@@ -1,5 +1,5 @@
 Arguments: 
-  /snap/node/5534/bin/node /snap/node/5534/bin/yarn.js global dir
+  /snap/node/5645/bin/node /snap/node/5645/bin/yarn.js global dir
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
@@ -8,7 +8,7 @@ Yarn version:
   1.22.15
 
 Node version: 
-  16.13.0
+  16.13.1
 
 Platform: 
   linux x64
@@ -20,10 +20,10 @@ Trace:
       at writeOrBuffer (node:internal/streams/writable:389:12)
       at _write (node:internal/streams/writable:330:10)
       at SyncWriteStream.Writable.write (node:internal/streams/writable:334:10)
-      at ConsoleReporter._log (/snap/node/5534/lib/cli.js:96906:17)
-      at ConsoleReporter.log (/snap/node/5534/lib/cli.js:96894:10)
-      at dir (/snap/node/5534/lib/cli.js:36299:14)
-      at Object.<anonymous> (/snap/node/5534/lib/cli.js:25983:25)
+      at ConsoleReporter._log (/snap/node/5645/lib/cli.js:96906:17)
+      at ConsoleReporter.log (/snap/node/5645/lib/cli.js:96894:10)
+      at dir (/snap/node/5645/lib/cli.js:36299:14)
+      at Object.<anonymous> (/snap/node/5645/lib/cli.js:25983:25)
       at Generator.next (<anonymous>)
 
 npm manifest: 
@@ -39,12 +39,22 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@react-navigation/drawer": "^6.1.8",
+      "@react-navigation/stack": "^6.0.11",
       "expo": "~43.0.2",
+      "expo-app-loading": "~1.2.1",
       "expo-status-bar": "~1.1.0",
+      "moment": "^2.29.1",
       "react": "17.0.1",
       "react-dom": "17.0.1",
       "react-native": "0.64.3",
-      "react-native-web": "0.17.1"
+      "react-native-gesture-handler": "~1.10.2",
+      "react-native-reanimated": "~2.2.0",
+      "react-native-web": "0.17.1",
+      "react-navigation-header-buttons": "^8.0.0",
+      "react-redux": "^7.2.6",
+      "redux": "^4.1.2",
+      "redux-thunk": "^2.4.1"
     },
     "devDependencies": {
       "@babel/core": "^7.12.9"

@@ -1,5 +1,41 @@
+import Order from "../../models/order";
 export const ADD_ORDER = 'ADD_ORDER';
-export const REMOVE_ORDER = 'REMOVE_ORDER';
+export const SET_ORDERS = 'SET_ORDERS';
+
+export const fetchOrders = () => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/orders/u1.json'
+      );
+
+      if (!response.ok) {
+        throw new Error('Нещо не е наред със заявката!');
+      }
+
+      //firebase GET request returns: {"id": {cartItems: ,date: ,totalAmount}, "id": ...}
+      const resData = await response.json();
+      console.log(resData);
+      //converting to array
+      const loadedOrders = [];
+      for (const key in resData) {
+        loadedOrders.push(
+          // class Order { constructor(id, items, totalAmount, date)
+          new Order(
+            key,
+            resData[key].cartItems,
+            resData[key].totalAmount,
+            new Date(resData[key].date),
+          )
+        );
+      }
+
+      dispatch({ type: SET_ORDERS, orders: loadedOrders });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
 
 export const addOrder = (cartItems, totalAmount) => {
   return async (dispatch) => {
@@ -36,8 +72,4 @@ export const addOrder = (cartItems, totalAmount) => {
       },
     });
   };
-};
-
-export const removeOrder = (orderId) => {
-  return { type: REMOVE_ORDER, orderId: orderId };
 };

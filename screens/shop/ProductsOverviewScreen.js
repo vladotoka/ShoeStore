@@ -43,6 +43,7 @@ const ProductsOverviewScreen = (props) => {
 
     return willFocusSub;
   }, [loadProducts]);
+  //FIXME проверка на клийнър функцията
 
   // useEffect(() => {
   //   loadProducts();

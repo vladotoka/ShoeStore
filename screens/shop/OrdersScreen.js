@@ -1,16 +1,47 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import DefaultText from '../../components/DefaultText';
+import Colors from '../../constants/Colors';
 
 import OrderItem from '../../components/shop/OrderItem';
+import * as orderActions from '../../store/actions/orders';
 
 const OrdersScreen = (props) => {
   const orders = useSelector((state) => state.orders.orders);
-  if (orders.length === 0) {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(orderActions.fetchOrders())
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((err) => {alert(err.message)});
+      //FIXME при reject няма опцция за презареждане и isLoding остава true 
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primaryColor} />
+      </View>
+    );
+  }
+
+  if (!isLoading && orders.length === 0) {
     return (
       <View>
-        <DefaultText style={styles.text}>Упс! Нямате никакви поръчки.</DefaultText>
+        <DefaultText style={styles.text}>
+          Упс! Нямате никакви поръчки.
+        </DefaultText>
       </View>
     );
   }
@@ -31,6 +62,11 @@ const OrdersScreen = (props) => {
 const styles = StyleSheet.create({
   text: {
     fontSize: 22,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
