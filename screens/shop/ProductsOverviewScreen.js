@@ -20,27 +20,39 @@ import CustomHeaderButton from '../../components/UI/HeaderButton';
 
 const ProductsOverviewScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isReloading, setIsReloading] = useState(false);
   const [error, setError] = useState();
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
 
-  const loadProducts = useCallback(async () => {
-    console.log('LOADPRODUCTS INV.');
-    setError(null);
-    setIsLoading(true);
-    try {
-      await dispatch(productsActions.fetchProducts());
-    } catch (err) {
-      console.log(err);
-      setError(err.message);
-    }
-    setIsLoading(false);
-  }, [dispatch, setIsLoading, setError]);
-  
+  const loadProducts = useCallback(
+    async (flatListReload=false) => {
+      console.log('LOADPRODUCTS INV.');
+      setError(null);
+      if (flatListReload===true) {
+        setIsReloading(true);
+      } else {
+        setIsLoading(true);
+      }
+      try {
+        await dispatch(productsActions.fetchProducts());
+      } catch (err) {
+        console.log(err);
+        setError(err.message);
+      }
+      if (flatListReload===true) {
+        setIsReloading(false);
+      } else {
+        setIsLoading(false);
+      }
+    },
+    [dispatch, setIsLoading, setError]
+  );
+
   //презареждане да продуктите от сървъра при всяко отваряне на екарана (т.к. reactnavigation не пресъздава копмпонентите всеки път )
   useEffect(() => {
     const willFocusSub = props.navigation.addListener('focus', loadProducts);
-
+    console.log('useEffest FOCUS LISTENER ');
     return willFocusSub;
   }, [loadProducts]);
   //FIXME проверка на клийнър функцията
@@ -117,6 +129,8 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <FlatList
+      onRefresh={loadProducts.bind(this, true)}
+      refreshing={isReloading}
       data={products}
       renderItem={(itemData) => (
         <ProductItem

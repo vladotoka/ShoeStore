@@ -19,7 +19,6 @@ export const fetchProducts = () => {
 
       //firebase GET request returns: {"pid1": {product DATA}, "pid2": {product DATA}, ..}
       const resData = await response.json();
-      console.log(resData);
       //converting to array
       const loadedProducts = [];
       for (const key in resData) {
