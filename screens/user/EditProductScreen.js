@@ -5,7 +5,7 @@ import {
   ScrollView,
   Alert,
   KeyboardAvoidingView,
-  ActivityIndicator,
+  ActivityIndicator, Platform
 } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -153,8 +153,8 @@ const EditProductScreen = (props) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior="padding"
-      keyboardVerticalOffset={10}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}
     >
       <ScrollView>
         <View style={styles.form}>

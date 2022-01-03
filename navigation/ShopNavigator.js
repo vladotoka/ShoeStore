@@ -13,6 +13,7 @@ import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
+import AuthScreen from '../screens/user/AuthScreen';
 
 const ShopStack = createStackNavigator();
 const AdminStack = createStackNavigator();
@@ -77,7 +78,7 @@ function AdminStackScreen() {
       <AdminStack.Screen
         name="EditProduct"
         component={EditProductScreen}
-        options={({route})=> ({title: route.params.headerTitle})}
+        options={({ route }) => ({ title: route.params.headerTitle })}
       />
     </AdminStack.Navigator>
   );
@@ -99,52 +100,71 @@ function MainShopNavigator() {
         headerTitleStyle: { fontFamily: 'ubuntuBold', fontSize: 18 },
       }}
     >
-      <Drawer.Screen
-        name="main"
-        component={ShopStackScreen}
-        options={{
-          drawerLabel: 'Магазин',
-          headerShown: false,
-          drawerIcon: (drawerConfig) => (
-            <Ionicons
-              name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-              size={drawerConfig.size}
-              color={drawerConfig.color}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="orders"
-        component={OrdersScreen}
-        options={{
-          drawerLabel: 'Твоите Поръчки',
-          title: 'Твоите Поръчки',
-          drawerIcon: (drawerConfig) => (
-            <Ionicons
-              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-              size={drawerConfig.size}
-              color={drawerConfig.color}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="myProducts"
-        component={AdminStackScreen}
-        options={{
-          drawerLabel: 'Администратор',
-          headerShown: false,
-          drawerIcon: (drawerConfig) => (
-            <Ionicons
-              name={Platform.OS === 'android' ? 'leaf' : 'leaf'}
-              size={drawerConfig.size}
-              color={drawerConfig.color}
-            />
-          ),
-        }}
-      />
-
+      {true ? (
+        <Drawer.Screen
+          name="login"
+          component={AuthScreen}
+          options={{
+            drawerLabel: 'Вписване',
+            headerShown: true,
+            drawerIcon: (drawerConfig) => (
+              <Ionicons
+                name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+                size={drawerConfig.size}
+                color={drawerConfig.color}
+              />
+            ),
+          }}
+        />
+      ) : (
+        <>
+          <Drawer.Screen
+            name="main"
+            component={ShopStackScreen}
+            options={{
+              drawerLabel: 'Магазин',
+              headerShown: false,
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="orders"
+            component={OrdersScreen}
+            options={{
+              drawerLabel: 'Твоите Поръчки',
+              title: 'Твоите Поръчки',
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="myProducts"
+            component={AdminStackScreen}
+            options={{
+              drawerLabel: 'Администратор',
+              headerShown: false,
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'leaf' : 'leaf'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+        </>
+      )}
     </Drawer.Navigator>
   );
 }
