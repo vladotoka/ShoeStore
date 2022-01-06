@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useReducer, useCallback, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   ScrollView,
   Button,
   Platform,
+  TouchableWithoutFeedback,
+  ActivityIndicator, Alert
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
@@ -15,6 +17,7 @@ import Card from '../../components/UI/Card';
 import Input from '../../components/UI/Input';
 import Colors from '../../constants/Colors';
 import * as authActions from '../../store/actions/auth';
+import { Ionicons } from '@expo/vector-icons';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -44,6 +47,10 @@ const formReducer = (state, action) => {
 
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
+  const [isHidden, setIsHidden] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
@@ -57,18 +64,43 @@ const AuthScreen = (props) => {
     formIsValid: false,
   });
 
-  const signUpHandler = () => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Грешка', error, [{ text: 'Добре' }]);
+    }
+  }, [error]);
+
+  const onToggleHiddenHandler = () => {
+    setIsHidden((current) => !current);
+  };
+
+  const authHandler = async () => {
     console.log(
-      'const signUpHandler',
+      'const authHandler',
       formState.inputValues.email,
       formState.inputValues.password
     );
-    dispatch(
-      authActions.signup(
+    let action;
+
+    if (isSignup) {
+      action = authActions.signup(
         formState.inputValues.email,
         formState.inputValues.password
-      )
-    );
+      );
+    } else {
+      action = authActions.login(
+        formState.inputValues.email,
+        formState.inputValues.password
+      );
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      await dispatch(action);
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
   };
 
   const inputChangeHandler = useCallback(
@@ -101,32 +133,56 @@ const AuthScreen = (props) => {
               autoCapitalize="none"
               errorText="Моля въведете валиден email адрес"
               onInputChange={inputChangeHandler}
-              initialValue=""
+              initialValue="kot2@kot.kot"
             />
-            <Input
-              id="password"
-              label="Password"
-              keyboardType="default"
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize="none"
-              errorText="Моля въведете валидна парола"
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Login"
-                color={Colors.primaryColor}
-                onPress={signUpHandler}
+            <View style={{ flexDirection: 'row' }}>
+              <Input
+                id="password"
+                label="Парола"
+                required
+                minLength={5}
+                autoCapitalize="none"
+                errorText="Моля въведете валидна парола"
+                onInputChange={inputChangeHandler}
+                initialValue=""
+                keyboardType={
+                  !isHidden && (Platform.OS = 'android')
+                    ? 'visible-password'
+                    : 'default'
+                }
+                secureTextEntry={isHidden ? true : false}
               />
+              <TouchableWithoutFeedback onPress={onToggleHiddenHandler}>
+                <View style={{ justifyContent: 'center' }}>
+                  <Ionicons
+                    name={!isHidden ? 'eye' : 'eye-off'}
+                    size={19}
+                    color="grey"
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              {isLoading ? (
+                <ActivityIndicator size="small" color={Colors.primaryColor} />
+              ) : (
+                <Button
+                  title={isSignup ? 'Създай нов' : 'Вписване'}
+                  color={Colors.primaryColor}
+                  onPress={authHandler}
+                />
+              )}
             </View>
             <View style={styles.buttonContainer}>
               <Button
-                title="Swith to SignUp"
+                title={`към ${
+                  isSignup ? 'екран вписване' : 'Създаване потребител'
+                } `}
                 color={Colors.accentColor}
-                onPress={() => {}}
+                onPress={() => {
+                  setIsSignup((prevState) => !prevState);
+                }}
               />
             </View>
           </ScrollView>

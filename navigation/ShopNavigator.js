@@ -102,7 +102,7 @@ function MainShopNavigator() {
     >
       {true ? (
         <Drawer.Screen
-          name="login"
+          name="Вписване"
           component={AuthScreen}
           options={{
             drawerLabel: 'Вписване',

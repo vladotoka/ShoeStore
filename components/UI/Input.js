@@ -1,5 +1,13 @@
-import React, { useReducer, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React, { useReducer, useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Platform,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const INPUT_BLUR = 'INPUT_BLUR';
@@ -73,6 +81,7 @@ const Input = (props) => {
         onChangeText={textChangeHandler}
         onBlur={lostFocusHandler}
       />
+
       {!inputState.isValid && inputState.touched && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{props.errorText}</Text>
@@ -86,7 +95,7 @@ export default Input;
 
 const styles = StyleSheet.create({
   formControl: {
-    width: '100%',
+    width: '90%',
   },
   label: {
     fontFamily: 'ubuntuBold',
@@ -99,11 +108,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   errorContainer: {
-      marginVertical: 5
+    marginVertical: 5,
   },
   errorText: {
-      fontFamily: 'ubuntu',
-      color: 'red',
-      fontSize: 13
-  }
+    fontFamily: 'ubuntu',
+    color: 'red',
+    fontSize: 13,
+  },
 });
