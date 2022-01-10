@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -14,6 +14,9 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
+import LogOut from '../screens/user/LogOut';
+
+import { useSelector } from 'react-redux';
 
 const ShopStack = createStackNavigator();
 const AdminStack = createStackNavigator();
@@ -86,10 +89,19 @@ function AdminStackScreen() {
 
 //Drawer Navigation
 function MainShopNavigator() {
+  const uid = useSelector((state) => state.auth.userId);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (uid) {
+      setIsLogged(true);
+    } else {setIsLogged(false)}
+    console.log(':) ', uid);
+  }, [uid]);
+
   return (
     <Drawer.Navigator
       screenOptions={{
-        // headerShown: false,
         drawerActiveTintColor: Colors.primaryColor,
         drawerLableStyle: { fontFamily: 'ubuntuBold' },
         headerStyle: {
@@ -100,7 +112,7 @@ function MainShopNavigator() {
         headerTitleStyle: { fontFamily: 'ubuntuBold', fontSize: 18 },
       }}
     >
-      {true ? (
+      {!isLogged ? (
         <Drawer.Screen
           name="Вписване"
           component={AuthScreen}
@@ -154,6 +166,21 @@ function MainShopNavigator() {
             options={{
               drawerLabel: 'Администратор',
               headerShown: false,
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'leaf' : 'leaf'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="logout"
+            component={LogOut}
+            options={{
+              drawerLabel: 'Отписване',
+              title: 'Отписване',
               drawerIcon: (drawerConfig) => (
                 <Ionicons
                   name={Platform.OS === 'android' ? 'leaf' : 'leaf'}

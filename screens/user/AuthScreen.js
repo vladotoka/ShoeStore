@@ -121,7 +121,7 @@ const AuthScreen = (props) => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}
       style={styles.screen}
     >
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
+      <LinearGradient colors={['#ffedff', '#ffe3ff', '#f7c1e6']} style={styles.gradient}>
         <Card style={styles.authContainer}>
           <ScrollView>
             <Input
@@ -133,7 +133,7 @@ const AuthScreen = (props) => {
               autoCapitalize="none"
               errorText="Моля въведете валиден email адрес"
               onInputChange={inputChangeHandler}
-              initialValue="kot2@kot.kot"
+              initialValue="kot3@kot.kot"
             />
             <View style={{ flexDirection: 'row' }}>
               <Input
@@ -155,7 +155,7 @@ const AuthScreen = (props) => {
               <TouchableWithoutFeedback onPress={onToggleHiddenHandler}>
                 <View style={{ justifyContent: 'center' }}>
                   <Ionicons
-                    name={!isHidden ? 'eye' : 'eye-off'}
+                    name={isHidden ? 'eye' : 'eye-off'}
                     size={19}
                     color="grey"
                   />
