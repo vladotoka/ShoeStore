@@ -75,11 +75,6 @@ const AuthScreen = (props) => {
   };
 
   const authHandler = async () => {
-    console.log(
-      'const authHandler',
-      formState.inputValues.email,
-      formState.inputValues.password
-    );
     let action;
 
     if (isSignup) {

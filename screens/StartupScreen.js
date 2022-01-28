@@ -7,26 +7,9 @@ import Colors from '../constants/Colors';
 import AuthScreen from '../screens/user/AuthScreen';
 import * as authActions from '../store/actions/auth';
 
-
 const StartupScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-
-  // const readDataFromStorage = async () => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem('userData');
-  
-  //     console.log(`reading AsyncStorage UID: ${JSON.parse(jsonValue)}`);
-  
-  //     return jsonValue != null ? JSON.parse(jsonValue) : null;
-  //   } catch (e) {
-  //     // error reading value
-  //     alert(
-  //       `Неуспешно четене на данни от паметта на устойството! response error :${e} `
-  //     );
-  //   }
-  // };
-  
 
   useEffect(() => {
     const tryLogin = async () => {
@@ -40,22 +23,30 @@ const StartupScreen = (props) => {
       // }
 
       const transformedData = JSON.parse(userData); //transformedData: { token, userId, expiryDate }
-      console.log(`SartupScreen: transormedData.userID: ${transformedData.userId}`);
-      console.log(`SartupScreen: transormedData.token: ${transformedData.token}`);
+      console.log(
+        `SartupScreen: transormedData.userID: ${transformedData.userId}`
+      );
+      console.log(
+        `SartupScreen: transormedData.token: ${transformedData.token}`
+      );
       const { token, userId, expiryDate } = transformedData;
       const expirationDate = new Date(expiryDate);
 
       // check if the token is expired, missing or there is no uid
       if (expirationDate <= new Date() || !token || !userId) {
         setIsLoading(false);
-        console.info('startupScreen: no token or user ID in asyncStorage-login needed');
+        console.info(
+          'startupScreen: no token or user ID in asyncStorage-login needed'
+        );
 
         return;
       }
+
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
+      console.log('expTime:', expirationTime);
       setIsLoading(false);
       console.log('startup screen dispathing authOK');
-      dispatch(authActions.authenticate(userId, token));
-
+      dispatch(authActions.authenticate(userId, token, expirationTime));
     };
 
     tryLogin();
@@ -69,8 +60,7 @@ const StartupScreen = (props) => {
     );
   }
 
-  return <AuthScreen />
-
+  return <AuthScreen />;
 };
 
 export default StartupScreen;
@@ -82,4 +72,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

@@ -124,25 +124,11 @@ function MainShopNavigator() {
       {!isLogged ? (
         <>
           <Drawer.Screen
-            name="start"
+            name="auth"
             component={StartupScreen}
             options={{
-              drawerLabel: 'Оторизация',
-              headerShown: true,
-              drawerIcon: (drawerConfig) => (
-                <Ionicons
-                  name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-                  size={drawerConfig.size}
-                  color={drawerConfig.color}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="login"
-            component={AuthScreen}
-            options={{
               drawerLabel: 'Вписване',
+              title: 'Вписване',
               headerShown: true,
               drawerIcon: (drawerConfig) => (
                 <Ionicons

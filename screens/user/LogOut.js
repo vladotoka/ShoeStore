@@ -1,19 +1,28 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Colors from '../../constants/Colors';
 
 import * as authActions from '../../store/actions/auth';
 
 const LogOut = () => {
-    const uid = useSelector((state) => state.auth.userId);
+  const uid = useSelector((state) => state.auth.userId);
   const dispatch = useDispatch();
-  const logMeOut = () => dispatch(authActions.logout());
+  useEffect(() => {
+    dispatch(authActions.logout());
+  }, [dispatch]);
 
   return (
     <View style={styles.screen}>
-      <Text>UID:   {uid}</Text>
-      <Button title="Изход" onPress={logMeOut} color={Colors.primaryColor} />
+      <Text>UID: {uid}</Text>
+      <Text>Отписване...</Text>
+      <ActivityIndicator size="large" color={Colors.primaryColor} />
     </View>
   );
 };
