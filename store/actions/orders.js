@@ -3,14 +3,16 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
 
 export const fetchOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+
     try {
       const response = await fetch(
-        'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/orders/u1.json'
+        `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json`
       );
 
       if (!response.ok) {
-        throw new Error('Нещо не е наред със заявката!');
+        throw new Error('Упс! Нещо не е наред със заявката!');
       }
 
       //firebase GET request returns: {"id": {cartItems: ,date: ,totalAmount}, "id": ...}
@@ -38,10 +40,12 @@ export const fetchOrders = () => {
 };
 
 export const addOrder = (cartItems, totalAmount) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const date = new Date();
     const response = await fetch(
-      'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/orders/u1.json',
+      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json?auth=${token}`,
       {
         method: 'POST',
         headers: {

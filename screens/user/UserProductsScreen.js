@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
+import DefaultText from '../../components/DefaultText';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -20,6 +21,7 @@ import * as productsActions from '../../store/actions/products';
 const UserProductsScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const userProducts = useSelector((state) => state.products.userProducts);
+  console.log(userProducts);
   const dispatch = useDispatch();
   const editItemHandler = (id) => {
     const title = id ? 'редакция' : 'нов продукт';
@@ -92,6 +94,17 @@ const UserProductsScreen = (props) => {
     );
   }
 
+  if (!isLoading && userProducts.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <DefaultText style={styles.text}>
+          Упс! Нямате ваши продукти. Може да добавите нов продукт от иконата
+          горе в дясно:)
+        </DefaultText>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <FlatList
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
   screen: { flex: 1 },
   text: {
     color: Colors.primaryColor,
-    fontSize: 35,
+    fontSize: 21,
   },
   centered: {
     flex: 1,

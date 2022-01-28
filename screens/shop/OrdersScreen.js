@@ -38,7 +38,7 @@ const OrdersScreen = (props) => {
 
   if (!isLoading && orders.length === 0) {
     return (
-      <View>
+      <View style={styles.centered}>
         <DefaultText style={styles.text}>
           Упс! Нямате никакви поръчки.
         </DefaultText>
@@ -61,7 +61,8 @@ const OrdersScreen = (props) => {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 22,
+    fontSize: 21,
+    color: Colors.primaryColor,
   },
   centered: {
     flex: 1,

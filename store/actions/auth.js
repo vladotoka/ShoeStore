@@ -1,6 +1,13 @@
-export const SIGNUP = 'SIGNUP';
-export const LOGIN = 'LOGIN';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// export const SIGNUP = 'SIGNUP';
+// export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const AUTHENTICATE = 'AUTHENTICATE';
+
+export const authenticate = (userId, token) => {
+  return { type: AUTHENTICATE, userId: userId, token: token };
+};
 
 export const signup = (email, password) => {
   console.log('store/actions/auth-signup', email, password);
@@ -35,7 +42,13 @@ export const signup = (email, password) => {
     const resData = await response.json();
     console.log(resData);
 
-    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
+    // dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
+    dispatch(authenticate(resData.localId, resData.idToken));
+
+    const expirationDate = new Date(
+      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+    );
+    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 
@@ -72,10 +85,56 @@ export const login = (email, password) => {
     const resData = await response.json();
     console.log(resData);
 
-    dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
+    // dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
+    dispatch(authenticate(resData.localId, resData.idToken));
+    const expirationDate = new Date(
+      new Date().getTime() + parseInt(resData.expiresIn) * 1000
+    );
+    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 
 export const logout = () => {
+  saveDataToStorage( null, null, new Date());
   return { type: LOGOUT };
+};
+
+//user data to async storage
+const saveDataToStorage = async (token, userId, expirationDate) => {
+  try {
+    await AsyncStorage.setItem(
+      'userData',
+      JSON.stringify({
+        token: token,
+        userId: userId,
+        expiryDate: expirationDate.toISOString(),
+      })
+    );
+  } catch (e) {
+    // saving error
+    alert(
+      `Неуспешен запис на данни в паметта на устойството! response error :${e} `
+    );
+  }
+  console.log('saved to asyncStorage');
+  readDataFromStorage();
+};
+
+//TEMP storage check
+const readDataFromStorage = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('userData');
+    const parsedValue = JSON.parse(jsonValue);
+
+    console.log(`reading AsyncStorage expDAte: ${parsedValue.expiryDate}`);
+    console.log(`reading AsyncStorage userId: ${parsedValue.userId}`);
+    console.log(`reading AsyncStorage token: ${parsedValue.token}`);
+
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+    alert(
+      `Неуспешно четене на данни от паметта на устойството! response error :${e} `
+    );
+  }
 };

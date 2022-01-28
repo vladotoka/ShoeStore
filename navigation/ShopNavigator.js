@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
 import Colors from '../constants/Colors';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
@@ -15,8 +19,10 @@ import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
 import LogOut from '../screens/user/LogOut';
+import StartupScreen from '../screens/StartupScreen';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as authActions from '../store/actions/auth';
 
 const ShopStack = createStackNavigator();
 const AdminStack = createStackNavigator();
@@ -95,12 +101,15 @@ function MainShopNavigator() {
   useEffect(() => {
     if (uid) {
       setIsLogged(true);
-    } else {setIsLogged(false)}
+    } else {
+      setIsLogged(false);
+    }
     console.log(':) ', uid);
   }, [uid]);
 
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         drawerActiveTintColor: Colors.primaryColor,
         drawerLableStyle: { fontFamily: 'ubuntuBold' },
@@ -113,21 +122,38 @@ function MainShopNavigator() {
       }}
     >
       {!isLogged ? (
-        <Drawer.Screen
-          name="Вписване"
-          component={AuthScreen}
-          options={{
-            drawerLabel: 'Вписване',
-            headerShown: true,
-            drawerIcon: (drawerConfig) => (
-              <Ionicons
-                name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-                size={drawerConfig.size}
-                color={drawerConfig.color}
-              />
-            ),
-          }}
-        />
+        <>
+          <Drawer.Screen
+            name="start"
+            component={StartupScreen}
+            options={{
+              drawerLabel: 'Оторизация',
+              headerShown: true,
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="login"
+            component={AuthScreen}
+            options={{
+              drawerLabel: 'Вписване',
+              headerShown: true,
+              drawerIcon: (drawerConfig) => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+                  size={drawerConfig.size}
+                  color={drawerConfig.color}
+                />
+              ),
+            }}
+          />
+        </>
       ) : (
         <>
           <Drawer.Screen
@@ -183,7 +209,7 @@ function MainShopNavigator() {
               title: 'Отписване',
               drawerIcon: (drawerConfig) => (
                 <Ionicons
-                  name={Platform.OS === 'android' ? 'leaf' : 'leaf'}
+                  name="log-out"
                   size={drawerConfig.size}
                   color={drawerConfig.color}
                 />
@@ -195,11 +221,28 @@ function MainShopNavigator() {
     </Drawer.Navigator>
   );
 }
+
 function ShopNavigator() {
   return (
     <NavigationContainer>
       <MainShopNavigator />
     </NavigationContainer>
+  );
+}
+
+function CustomDrawerContent(props) {
+  const dispatch = useDispatch();
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <Button
+        title="Отписване"
+        onPress={() => {
+          dispatch(authActions.logout());
+          props.navigation.dispatch(DrawerActions.closeDrawer());
+        }}
+      />
+    </DrawerContentScrollView>
   );
 }
 
