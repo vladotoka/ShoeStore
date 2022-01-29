@@ -50,7 +50,6 @@ export const fetchProducts = () => {
 
 export const deleteProduct = (productID) => {
   return async (dispatch, getState) => {
-    console.log('fetch DELETE product INV');
     const token = getState().auth.token;
     const response = await fetch(
       `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${productID}.json?auth=${token}`,
@@ -97,8 +96,6 @@ export const createProduct = (title, description, imageUrl, price) => {
     //firebase връща ид на новия запис с отговора в ключ "name":
     const resData = await response.json();
 
-    console.log(resData);
-
     dispatch({
       type: CREATE_PRODUCT,
       productData: {
@@ -115,7 +112,6 @@ export const createProduct = (title, description, imageUrl, price) => {
 
 export const updateProduct = (id, title, description, imageUrl) => {
   return async (dispatch, getState) => {
-    console.log('fetch POST update product INV, getStateData:');
     const token = getState().auth.token;
     const response = await fetch(
       `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${id}.json?auth=${token}`,

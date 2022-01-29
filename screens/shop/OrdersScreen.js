@@ -25,7 +25,7 @@ const OrdersScreen = (props) => {
         setIsLoading(false);
       })
       .catch((err) => {alert(err.message)});
-      //FIXME при reject няма опцция за презареждане и isLoding остава true 
+      //FIXME при reject няма опция за презареждане и isLoding остава true 
   }, [dispatch]);
 
   if (isLoading) {

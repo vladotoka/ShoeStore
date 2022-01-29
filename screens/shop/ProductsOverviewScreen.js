@@ -26,10 +26,9 @@ const ProductsOverviewScreen = (props) => {
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(
-    async (flatListReload=false) => {
-      console.log('LOADPRODUCTS INV.');
+    async (flatListReload = false) => {
       setError(null);
-      if (flatListReload===true) {
+      if (flatListReload === true) {
         setIsReloading(true);
       } else {
         setIsLoading(true);
@@ -37,10 +36,9 @@ const ProductsOverviewScreen = (props) => {
       try {
         await dispatch(productsActions.fetchProducts());
       } catch (err) {
-        console.log(err);
         setError(err.message);
       }
-      if (flatListReload===true) {
+      if (flatListReload === true) {
         setIsReloading(false);
       } else {
         setIsLoading(false);
@@ -52,7 +50,6 @@ const ProductsOverviewScreen = (props) => {
   //презареждане да продуктите от сървъра при всяко отваряне на екарана (т.к. reactnavigation не пресъздава копмпонентите всеки път )
   useEffect(() => {
     const willFocusSub = props.navigation.addListener('focus', loadProducts);
-    console.log('useEffest FOCUS LISTENER ');
     return willFocusSub;
   }, [loadProducts]);
   //FIXME проверка на клийнър функцията

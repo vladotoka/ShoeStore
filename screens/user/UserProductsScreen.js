@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import * as productsActions from '../../store/actions/products';
 
 import ProductItem from '../../components/shop/ProductItem';
 import DefaultText from '../../components/DefaultText';
@@ -16,12 +17,10 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
-import * as productsActions from '../../store/actions/products';
 
 const UserProductsScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const userProducts = useSelector((state) => state.products.userProducts);
-  console.log(userProducts);
   const dispatch = useDispatch();
   const editItemHandler = (id) => {
     const title = id ? 'редакция' : 'нов продукт';

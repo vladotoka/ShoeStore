@@ -1,4 +1,4 @@
-import Order from "../../models/order";
+import Order from '../../models/order';
 export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
 
@@ -17,7 +17,6 @@ export const fetchOrders = () => {
 
       //firebase GET request returns: {"id": {cartItems: ,date: ,totalAmount}, "id": ...}
       const resData = await response.json();
-      console.log(resData);
       //converting to array
       const loadedOrders = [];
       for (const key in resData) {
@@ -27,7 +26,7 @@ export const fetchOrders = () => {
             key,
             resData[key].cartItems,
             resData[key].totalAmount,
-            new Date(resData[key].date),
+            new Date(resData[key].date)
           )
         );
       }
@@ -65,7 +64,6 @@ export const addOrder = (cartItems, totalAmount) => {
 
     //firebase връща ид на новия запис с отговора в ключ "name":
     const resData = await response.json();
-    console.log(resData);
     dispatch({
       type: ADD_ORDER,
       orderData: {

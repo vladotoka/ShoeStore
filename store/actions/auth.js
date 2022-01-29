@@ -11,7 +11,7 @@ let timer;
 //   return { type: AUTHENTICATE, userId: userId, token: token };
 // };
 
-export const authenticate = (userId, token, expiryTime = 42000) => {
+export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
     dispatch(setLogoutTimer(expiryTime));
     dispatch({ type: AUTHENTICATE, userId: userId, token: token });
@@ -19,7 +19,6 @@ export const authenticate = (userId, token, expiryTime = 42000) => {
 };
 
 export const signup = (email, password) => {
-  console.log('store/actions/auth-signup', email, password);
   return async (dispatch) => {
     const response = await fetch(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC-C-zhGiQRr2ttkqxqS-f-VQHEPURXc9w',
@@ -36,7 +35,6 @@ export const signup = (email, password) => {
 
     if (!response.ok) {
       const errorResData = await response.json();
-      console.log(errorResData);
       const errorId = errorResData.error.message;
       let message = `Нещо се обърка. Отговор на сървъра:${errorId}`;
       if (errorId === 'EMAIL_EXISTS') {
@@ -49,9 +47,7 @@ export const signup = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
 
-    // dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
     dispatch(
       authenticate(
         resData.localId,
@@ -68,7 +64,6 @@ export const signup = (email, password) => {
 };
 
 export const login = (email, password) => {
-  console.log('store/actions/auth-signin', email, password);
   return async (dispatch) => {
     const response = await fetch(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC-C-zhGiQRr2ttkqxqS-f-VQHEPURXc9w',
@@ -85,7 +80,6 @@ export const login = (email, password) => {
 
     if (!response.ok) {
       const errorResData = await response.json();
-      console.log(errorResData);
       const errorId = errorResData.error.message;
       let message = `Нещо се обърка. Отговор на сървъра:${errorId}`;
       if (errorId === 'EMAIL_NOT_FOUND') {
@@ -98,9 +92,7 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
 
-    // dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
     dispatch(
       authenticate(
         resData.localId,
@@ -117,7 +109,6 @@ export const login = (email, password) => {
 
 export const logout = () => {
   clearLogoutTimer();
-
   saveDataToStorage(null, null, new Date());
   return { type: LOGOUT };
 };
@@ -128,6 +119,7 @@ const clearLogoutTimer = () => {
   }
 };
 
+//set timer for autologout when the token expires
 const setLogoutTimer = (expirationTime) => {
   return (dispatch) => {
     timer = setTimeout(() => {
@@ -136,7 +128,7 @@ const setLogoutTimer = (expirationTime) => {
   };
 };
 
-//user data to async storage
+//saving user data to async storage
 const saveDataToStorage = async (token, userId, expirationDate) => {
   try {
     await AsyncStorage.setItem(
@@ -151,27 +143,6 @@ const saveDataToStorage = async (token, userId, expirationDate) => {
     // saving error
     alert(
       `Неуспешен запис на данни в паметта на устойството! response error :${e} `
-    );
-  }
-  console.log('saved to asyncStorage');
-  readDataFromStorage();
-};
-
-//TEMP storage check
-const readDataFromStorage = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('userData');
-    const parsedValue = JSON.parse(jsonValue);
-
-    console.log(`reading AsyncStorage expDAte: ${parsedValue.expiryDate}`);
-    console.log(`reading AsyncStorage userId: ${parsedValue.userId}`);
-    console.log(`reading AsyncStorage token: ${parsedValue.token}`);
-
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-    alert(
-      `Неуспешно четене на данни от паметта на устойството! response error :${e} `
     );
   }
 };

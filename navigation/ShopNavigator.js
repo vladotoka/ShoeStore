@@ -104,7 +104,6 @@ function MainShopNavigator() {
     } else {
       setIsLogged(false);
     }
-    console.log(':) ', uid);
   }, [uid]);
 
   return (

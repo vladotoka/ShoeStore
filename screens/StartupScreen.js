@@ -11,47 +11,33 @@ const StartupScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
+
+  //if there is no data user is not logged so we need to navigate to the login screen
   useEffect(() => {
     const tryLogin = async () => {
       setIsLoading(true);
       const userData = await AsyncStorage.getItem('userData');
-      //if there is no data user is not logged so we need to navigate to the login screen
-      // if (!userData) {
-      //   setIsLoading(false);
-      //   console.info('startupScreen: user data is null in asyncStorage-login needed');
-      //   return;
-      // }
 
       const transformedData = JSON.parse(userData); //transformedData: { token, userId, expiryDate }
-      console.log(
-        `SartupScreen: transormedData.userID: ${transformedData.userId}`
-      );
-      console.log(
-        `SartupScreen: transormedData.token: ${transformedData.token}`
-      );
       const { token, userId, expiryDate } = transformedData;
       const expirationDate = new Date(expiryDate);
 
       // check if the token is expired, missing or there is no uid
       if (expirationDate <= new Date() || !token || !userId) {
         setIsLoading(false);
-        console.info(
-          'startupScreen: no token or user ID in asyncStorage-login needed'
-        );
 
         return;
       }
 
       const expirationTime = expirationDate.getTime() - new Date().getTime();
-      console.log('expTime:', expirationTime);
       setIsLoading(false);
-      console.log('startup screen dispathing authOK');
       dispatch(authActions.authenticate(userId, token, expirationTime));
     };
 
     tryLogin();
   }, [dispatch]);
 
+  //during asyncStorage reading: show the spinner
   if (isLoading) {
     return (
       <View style={styles.screen}>
@@ -60,6 +46,7 @@ const StartupScreen = (props) => {
     );
   }
 
+  //if user is not authenticated: show the login screen
   return <AuthScreen />;
 };
 
