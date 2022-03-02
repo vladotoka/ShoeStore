@@ -12,7 +12,7 @@ export const fetchProducts = () => {
 
     try {
       const response = await fetch(
-        'https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products.json'
+        'https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/products.json'
       );
 
       if (!response.ok) {
@@ -52,7 +52,7 @@ export const deleteProduct = (productID) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${productID}.json?auth=${token}`,
+      `https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/products/${productID}.json?auth=${token}`,
       {
         method: 'DELETE',
       }
@@ -73,7 +73,7 @@ export const createProduct = (title, description, imageUrl, price) => {
     const userId = getState().auth.userId;
 
     const response = await fetch(
-      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=${token}`,
+      `https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=${token}`,
       {
         method: 'POST',
         headers: {
@@ -114,7 +114,7 @@ export const updateProduct = (id, title, description, imageUrl) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-complete-guide-30882-default-rtdb.europe-west1.firebasedatabase.app/products/${id}.json?auth=${token}`,
+      `https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/products/${id}.json?auth=${token}`,
       {
         method: 'PATCH',
         headers: {
