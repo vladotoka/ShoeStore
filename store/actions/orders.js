@@ -8,7 +8,7 @@ export const fetchOrders = () => {
 
 		try {
 			const response = await fetch(
-				`https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json`
+				`https://rnstore-7944a-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json`
 			);
 
 			if (!response.ok) {
@@ -44,7 +44,7 @@ export const addOrder = (cartItems, totalAmount) => {
 		const userId = getState().auth.userId;
 		const date = new Date();
 		const response = await fetch(
-			`https://rnstoreproject-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json?auth=${token}`,
+			`https://rnstore-7944a-default-rtdb.europe-west1.firebasedatabase.app/orders/${userId}.json?auth=${token}`,
 			{
 				method: 'POST',
 				headers: {
