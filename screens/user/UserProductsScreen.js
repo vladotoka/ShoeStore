@@ -33,7 +33,7 @@ const UserProductsScreen = (props) => {
   const deleteHandler = (pid) => {
     Alert.alert(
       'Необходимо е потвърждение!',
-      'Потвърждавате ли избора си да изтриете този продукт?',
+      'Потвърждавате ли изтриването на този продукт?',
       [
         { text: 'Не', style: 'default' },
         {

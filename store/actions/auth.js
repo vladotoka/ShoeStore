@@ -85,9 +85,13 @@ export const login = (email, password) => {
 			const errorId = errorResData.error.message;
 			let message = `Нещо се обърка. Отговор на сървъра:${errorId}`;
 			if (errorId === 'EMAIL_NOT_FOUND') {
-				message = 'Не открихме този e-mail';
+				message = '😼 Не открихме този e-mail в базата ни.';
+			} else if (errorId === 'INVALID_EMAIL') {
+				message = '😼 Това не изглежда като валиден e-mail';
 			} else if (errorId === 'INVALID_PASSWORD') {
 				message = '😼 Тази парола е грешна ^^';
+			} else if (errorId === 'MISSING_PASSWORD') {
+				message = '😼 Не сте въвели парола';
 			}
 
 			throw new Error(message);
