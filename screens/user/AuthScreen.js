@@ -128,7 +128,7 @@ const AuthScreen = (props) => {
               autoCapitalize="none"
               errorText="Моля въведете валиден email адрес"
               onInputChange={inputChangeHandler}
-              initialValue="kotka3@kot.kot"
+              initialValue="kotka@kot.kot"
             />
             <View style={{ flexDirection: 'row' }}>
               <Input
